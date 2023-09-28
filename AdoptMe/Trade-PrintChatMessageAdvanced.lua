@@ -24,18 +24,21 @@ while wait() and toggle == true do
         print(messageText) -- Print the original message
 
         -- Check for the conditions
-        local addedStart, addedEnd = messageText:find("added")
-        local removedStart, removedEnd = messageText:find("removed")
+        local addedStart, addedEnd = messageText:find("added%s")
+        local removedStart, removedEnd = messageText:find("removed%s")
 
-        if addedStart or removedStart then
-            local startIdx = addedStart or removedStart
-            local action = messageText:sub(startIdx, startIdx + 5) -- Get "added" or "removed"
+        if addedStart then
+            local addedText = messageText:sub(addedStart, addedEnd - 1)
+            local restOfText = messageText:sub(addedEnd + 1):gsub(" ", "_"):match("[^%.]+")
             
-            local restOfText = messageText:sub(startIdx + 6) -- +6 to skip "added" or "removed"
-            local cleanedText = restOfText:gsub(" ", "_"):match("[^%.]+")
+            print(addedText)
+            print(restOfText)
+        elseif removedStart then
+            local removedText = messageText:sub(removedStart, removedEnd - 1)
+            local restOfText = messageText:sub(removedEnd + 1):gsub(" ", "_"):match("[^%.]+")
             
-            print(action)
-            print(cleanedText)
+            print(removedText)
+            print(restOfText)
         end
 
         lastMessage = newMessage
