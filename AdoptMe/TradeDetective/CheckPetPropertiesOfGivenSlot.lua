@@ -40,8 +40,7 @@ local slotCounter = 2
 TradeSlots[slotCounter] = checkSlotProperties(slotCounter)
 
 -- Print the properties of the TradeSlot
-print("PetName:", TradeSlots[slotCounter].petName)
-print("rbxassetid:", TradeSlots[slotCounter].rbxassetid)
+print(TradeSlots[slotCounter].rbxassetid)
 print("Flyable:", TradeSlots[slotCounter].flyable)
 print("Rideable:", TradeSlots[slotCounter].rideable)
 print("Neon:", TradeSlots[slotCounter].neon)
