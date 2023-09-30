@@ -122,7 +122,12 @@ local function checkSlotProperties(SlotNumber)
 
     return TradeSlot -- Return the TradeSlot table with properties assigned
 end
+--END OF FUNCTIONS
 
+
+--[[
+THE FOLLOWING CODE IS COMMON FOR ANY TRADE, AS IT CHECKS FOR THE PROPERTIES OF ANY SLOT IN TRADE
+]]--
 -- Create a table to store TradeSlots
 local TradeSlots = {}
 
@@ -148,9 +153,10 @@ for slotCounter = 1, numIterations do
     end
 end
 
-
+--[[
+THE FOLLOWING CODE IS COMMON FOR ANY TRADE AS IT CHECKS FOR PARTNER ACCEPT
+]]--
 local acceptedTrade = false
--- Run the check in a loop
 while acceptedTrade == false do
     wait(10) -- Adjust the wait time as needed to control the frequency of checks
     if checkImageTransparency() then
@@ -188,10 +194,14 @@ if acceptedTrade == true then
         end
     end
 
+
+    --I can use if coincidenceCouter >= 2 and tradingRpotFor2Legs == true then... this will check what I am trading 
+    --To, coincidenceCouter >= 1 and trading1LegForRpot then...
     if coincidenceCouter >= 2 then
         print("2 or more coincidences")
         
         --Click Accept
         ReplicatedStorage.API:FindFirstChild("TradeAPI/AcceptNegotiation"):FireServer()
+        checkImageTransparency()
     end
 end
