@@ -798,11 +798,31 @@ function assetsCheckInventory()
     local ridePots = assetsCheckInventory_ridePots()
     if ridePots >= 1 then
         print("I have 1 or more ride potions")
+
+        local Foods = require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.food or {}
+        for i,v in pairs(Foods) do
+            if v.id == 'pet_riding_potion' then
+                rPot= v.unique
+                break
+            end
+        end
+        
+        ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(rPot,{["use_sound_delay"] = false})
     end
 
     local flyPots = assetsCheckInventory_flyPots()
     if flyPots >= 1 then
         print("I have 1 or more fly potions")
+
+        local Foods = require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.food or {}
+        for i,v in pairs(Foods) do
+            if v.id == 'pet_flying_potion' then
+                fPot= v.unique
+                break
+            end
+        end
+        
+        ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(fPot,{["use_sound_delay"] = false})
     end
     --Call function to start sending messages to server
 
