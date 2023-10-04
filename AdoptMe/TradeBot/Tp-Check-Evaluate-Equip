@@ -773,9 +773,9 @@ function assetsCheckInventory()
     for key, value in pairs(PetFor1RPotResults) do
         PetFor1RPotResults_count = PetFor1RPotResults_count + 1
     end
-    print("Tradeable pets for 1 R pot in inventory: " .. PetFor1RPotResults_count)
+    print("assetsCheckInventory() Tradeable pets for 1 R pot in inventory: " .. PetFor1RPotResults_count)
 
-    --If Tradeable pets in inventory >= then equip pet
+    --If Tradeable pets for 1 R potion in inventory >= X then equip pet
     if PetFor1RPotResults_count >= 2 then
         local Pets = require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets or {}
         for unique, pet in pairs(Pets) do
@@ -786,13 +786,16 @@ function assetsCheckInventory()
         end
 
         if PetID then
+            print(PetID)
             ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
             Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
-            print("Equipped an egg with ID:", PetID)
+            print("assetsCheckInventory() Equipped Pet for 1x R Poion:", PetID)
         else
-            print("No suitable egg found to equip.")
+            print("assetsCheckInventory() No suitable Pet for 1x R Potion.")
         end
     end
+
+    --Call function to start sending messages to server
 
 end
 
@@ -846,9 +849,13 @@ function tradeBot1_TpMainMap()
             else
                 print("tradeBot1TpMainMap - tp to main map")
                 GoToMainMap()
-                Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors:FindFirstChildWhichIsA("Model"):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6))
-                Player.Character.HumanoidRootPart.CFrame = CFrame.new(-247.35408, 17.3820152, -1518.88879) 
-                tradeBot2_CheckInventory()
+                local characterLoad = game.Workspace:WaitForChild(game.Players.LocalPlayer.Name)
+                if characterLoad then
+                    Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors:FindFirstChildWhichIsA("Model"):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6))
+                    Player.Character.HumanoidRootPart.CFrame = CFrame.new(-247.35408, 17.3820152, -1518.88879)
+                    wait(2)
+                    tradeBot2_CheckInventory()
+                end
             end
         end
     end)
@@ -856,8 +863,12 @@ end
 
 function tradeBot2_CheckInventory()
     if tradeBotToggle then
-        print("tradeBot2_CheckInventory is alive!")
-        assetsCheckInventory()
+            if MainMap() then
+                print("tradeBot2_CheckInventory is alive!")
+                assetsCheckInventory()
+            else
+                tradeBot1_TpMainMap()
+            end
     end
 end
 
