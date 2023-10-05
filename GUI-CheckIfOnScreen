@@ -1,0 +1,9 @@
+local guiElement = Player.PlayerGui.DialogApp.Dialog.HeaderDialog.Buttons.ButtonTemplate
+-- Check if the GUI element is visible
+local isVisible = guiElement.Visible
+
+if isVisible then
+    print("The GUI element is on screen and visible!")
+else
+    print("The GUI element is off screen or not visible.")
+end
